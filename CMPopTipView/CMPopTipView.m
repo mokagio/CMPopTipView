@@ -33,6 +33,7 @@
 	BOOL					_highlight;
 	PointDirection			_pointDirection;
 	CGFloat					_pointerHeight;
+	CGFloat					_pointerBase;
 	CGPoint					_targetPoint;
 }
 
