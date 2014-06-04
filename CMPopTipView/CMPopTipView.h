@@ -130,7 +130,16 @@ typedef enum {
 @property (nonatomic, assign)           BOOL                    hasGradientBackground;
 @property (nonatomic, assign)           CGFloat                 sidePadding;
 @property (nonatomic, assign)           CGFloat                 topMargin;
-@property (nonatomic, assign)           CGFloat                 pointerSize;
+
+/**
+ *  The height of the pointer triangle. Defaults to 12.
+ */
+@property (nonatomic, assign)           CGFloat                 pointerHeight;
+
+/**
+ *  The base of the pointer triangle. Defaults to 12.
+ */
+@property (nonatomic, assign)           CGFloat                 pointerBase;
 
 /* Contents can be either a message or a UIView */
 - (id)initWithTitle:(NSString *)titleToShow message:(NSString *)messageToShow;

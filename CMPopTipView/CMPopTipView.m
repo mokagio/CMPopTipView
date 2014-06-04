@@ -32,7 +32,7 @@
 	CGFloat					_cornerRadius;
 	BOOL					_highlight;
 	PointDirection			_pointDirection;
-	CGFloat					_pointerSize;
+	CGFloat					_pointerHeight;
 	CGPoint					_targetPoint;
 }
 
@@ -47,10 +47,10 @@
 - (CGRect)bubbleFrame {
 	CGRect bubbleFrame;
 	if (_pointDirection == PointDirectionUp) {
-		bubbleFrame = CGRectMake(_sidePadding, _targetPoint.y+_pointerSize, _bubbleSize.width, _bubbleSize.height);
+		bubbleFrame = CGRectMake(_sidePadding, _targetPoint.y+_pointerHeight, _bubbleSize.width, _bubbleSize.height);
 	}
 	else {
-		bubbleFrame = CGRectMake(_sidePadding, _targetPoint.y-_pointerSize-_bubbleSize.height, _bubbleSize.width, _bubbleSize.height);
+		bubbleFrame = CGRectMake(_sidePadding, _targetPoint.y-_pointerHeight-_bubbleSize.height, _bubbleSize.width, _bubbleSize.height);
 	}
 	return bubbleFrame;
 }
@@ -85,7 +85,7 @@
 	
 	if (_pointDirection == PointDirectionUp) {
 		CGPathMoveToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding, _targetPoint.y);
-		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding+_pointerSize, _targetPoint.y+_pointerSize);
+		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding+_pointerBase, _targetPoint.y+_pointerHeight);
 		
 		CGPathAddArcToPoint(bubblePath, NULL,
 							bubbleRect.origin.x+bubbleRect.size.width, bubbleRect.origin.y,
@@ -103,11 +103,11 @@
 							bubbleRect.origin.x, bubbleRect.origin.y,
 							bubbleRect.origin.x+_cornerRadius, bubbleRect.origin.y,
 							_cornerRadius);
-		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding-_pointerSize, _targetPoint.y+_pointerSize);
+		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding-_pointerBase, _targetPoint.y+_pointerHeight);
 	}
 	else {
 		CGPathMoveToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding, _targetPoint.y);
-		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding-_pointerSize, _targetPoint.y-_pointerSize);
+		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding-_pointerBase, _targetPoint.y-_pointerHeight);
 		
 		CGPathAddArcToPoint(bubblePath, NULL,
 							bubbleRect.origin.x, bubbleRect.origin.y+bubbleRect.size.height,
@@ -125,7 +125,7 @@
 							bubbleRect.origin.x+bubbleRect.size.width, bubbleRect.origin.y+bubbleRect.size.height,
 							bubbleRect.origin.x+bubbleRect.size.width-_cornerRadius, bubbleRect.origin.y+bubbleRect.size.height,
 							_cornerRadius);
-		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding+_pointerSize, _targetPoint.y-_pointerSize);
+		CGPathAddLineToPoint(bubblePath, NULL, _targetPoint.x+_sidePadding+_pointerBase, _targetPoint.y-_pointerHeight);
 	}
     
 	CGPathCloseSubpath(bubblePath);
@@ -514,14 +514,14 @@
 	if (x_b + _bubbleSize.width + _sidePadding > W) {
 		x_b = W - _bubbleSize.width - _sidePadding;
 	}
-	if (x_p - _pointerSize < x_b + _cornerRadius) {
-		x_p = x_b + _cornerRadius + _pointerSize;
+	if (x_p - _pointerHeight < x_b + _cornerRadius) {
+		x_p = x_b + _cornerRadius + _pointerHeight;
 	}
-	if (x_p + _pointerSize > x_b + _bubbleSize.width - _cornerRadius) {
-		x_p = x_b + _bubbleSize.width - _cornerRadius - _pointerSize;
+	if (x_p + _pointerHeight > x_b + _bubbleSize.width - _cornerRadius) {
+		x_p = x_b + _bubbleSize.width - _cornerRadius - _pointerHeight;
 	}
 	
-	CGFloat fullHeight = _bubbleSize.height + _pointerSize + 10.0;
+	CGFloat fullHeight = _bubbleSize.height + _pointerHeight + 10.0;
 	CGFloat y_b;
 	if (_pointDirection == PointDirectionUp) {
 		y_b = _topMargin + pointerY;
@@ -693,7 +693,8 @@
 		self.opaque = NO;
 
 		_topMargin = 2.0;
-		_pointerSize = 12.0;
+		_pointerHeight = 12.0;
+        _pointerBase = 12.0;
 		_sidePadding = 2.0;
         _borderWidth = 1.0;
 		
